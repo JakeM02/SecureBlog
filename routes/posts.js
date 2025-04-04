@@ -91,5 +91,30 @@ router.get("/dashboard", isAuthenticated, (req, res) => {
         });
     });
 
+    // Reflected XSS Search Route (Insecure)
+    router.get("/search", (req, res) => {
+        const searchQuery = req.query.q;
+    
+        if (!searchQuery) {
+            return res.redirect("/dashboard");
+        }
+    
+        const query = `SELECT * FROM posts WHERE title LIKE ?`;
+    
+        db.all(query, [`%${searchQuery}%`], (err, posts) => {
+            if (err) {
+                return res.send("Error retrieving search results.");
+            }
+    
+            // Pass 'user' from the session to the view
+            res.render("searchResults", {
+                searchQuery: searchQuery,
+                posts: posts,
+                user: req.session.user 
+            });
+        });
+    });
+    
+
 
 module.exports = router;
