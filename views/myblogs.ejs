@@ -15,6 +15,11 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
+                <form class="d-flex ms-3" action="/posts/search" method="GET">
+                    <input class="form-control me-2" type="search" placeholder="Search..." name="q">
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                  </form>
+                  
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="/dashboard">Home</a></li>
                     <li class="nav-item"><a class="nav-link active" href="/myblogs">My Blogs</a></li>
