@@ -91,7 +91,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const query = decodeURIComponent(urlParams.get('q')); // Decodes the query
 
-    // Inject query into the DOM using innerHTML (Unsafe)
+    // Inject query into the DOM using innerHTML 
     if (query) {
         const header = document.getElementById("dom-result-header");
         header.innerHTML = `Search results for: "${query}"`;  // Vulnerable to XSS
