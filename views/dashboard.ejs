@@ -59,7 +59,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p><%= post.content %></p>
+                                    <p><%- post.content %></p>  <!-- (vulnerable to XSS) -->
                                 </div>
                                 <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
                                     <% if (user.username === "admin" && user.username === post.created_by) { %>                                   
