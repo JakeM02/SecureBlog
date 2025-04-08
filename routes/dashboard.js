@@ -14,8 +14,13 @@ function isAuthenticated(req, res, next) {
 
 // Dashboard Route
 router.get("/", isAuthenticated, (req, res) => {
-    db.all("SELECT * FROM posts", [], (err, posts) => {
-        if (err) return res.send("Error fetching posts");
+    const query = `SELECT id, title, content, created_at, created_by FROM posts ORDER BY created_at DESC`;
+
+    db.all(query, [], (err, posts) => {
+        if (err) {
+            console.error("Dashboard DB error:", err);
+            return res.status(500).send("Internal Server Error");
+        }
 
         res.render("dashboard", {
             user: req.session.user,

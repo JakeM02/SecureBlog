@@ -1,8 +1,11 @@
 const sqlite3 = require("sqlite3").verbose();
+const bcrypt = require("bcrypt");
 const db = new sqlite3.Database("./db/blog.db");
 
+const saltRounds = 10; // Number of salt rounds for bcrypt
+
 // Create tables
-db.serialize(() => {
+db.serialize(async () => {
     db.run("DROP TABLE IF EXISTS users");
     db.run("DROP TABLE IF EXISTS posts");
 
@@ -29,9 +32,16 @@ db.serialize(() => {
         )
     `);
 
-    
+    // Hash the admin password
+    const hashedPassword = await bcrypt.hash('admin', saltRounds);
+
     // Creates Admin User
-    db.run(`INSERT INTO users (username, password, role) VALUES ('admin', 'admin', 'admin')`);
+    db.run(`INSERT INTO users (username, password, role) VALUES ('admin', ?, 'admin')`, [hashedPassword], function(err) {
+        if (err) {
+            return console.error("Error creating admin user:", err.message);
+        }
+        console.log("Admin user created with hashed password!");
+    });
 
     console.log("Database initialized!");
 });

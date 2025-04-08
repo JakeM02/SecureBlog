@@ -59,11 +59,17 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p><%= post.content %></p>
+                                    <!-- Ensure content is properly escaped -->
+                                    <p><%= post.content.replace(/</g, "&lt;").replace(/>/g, "&gt;") %></p>
                                 </div>
                                 <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-                                    <a href="/posts/delete/<%= post.id %>" class="btn btn-danger btn-sm">Delete</a>
-                                    <a href="/posts/edit/<%= post.id %>" class="btn btn-primary btn-sm">Edit</a>
+                                    <!-- Ensure only the author or admin can delete/edit -->
+                                    <% if (user && (user.username === post.created_by || user.username === "admin")) { %>
+                                        <a href="/posts/delete/<%= post.id %>" class="btn btn-danger btn-sm">Delete</a>
+                                        <% if (user.username === post.created_by || user.username === "admin") { %>
+                                            <a href="/posts/edit/<%= post.id %>" class="btn btn-primary btn-sm">Edit</a>
+                                        <% } %>
+                                    <% } %>
                                     <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
