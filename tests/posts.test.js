@@ -28,7 +28,7 @@ async function login(driver, username, password) {
 
     const pageSource = await driver.getPageSource();
     assert(pageSource.includes('Admin Test Post'));
-    console.log("Admin post created and visible on dashboard");
+    console.log("PASSED - Admin post created and visible on dashboard");
 
     // Open the modal
     const postCard = await driver.findElement(By.xpath("//h5[contains(text(),'Admin Test Post')]/ancestor::div[contains(@class,'card')]"));
@@ -48,7 +48,7 @@ async function login(driver, username, password) {
 
     const updatedPage = await driver.getPageSource();
     assert(updatedPage.includes('Admin Updated Post'));
-    console.log("Admin post edited successfully");
+    console.log("PASSED - Admin post edited successfully");
 
     // Search Post
     await driver.get(`${baseUrl}/dashboard`);
@@ -60,7 +60,7 @@ async function login(driver, username, password) {
 
     const searchPage = await driver.getPageSource();
     assert(searchPage.includes('Admin Updated Post'));
-    console.log("Search displays updated post");
+    console.log("PASSED - Search displays updated post");
 
     // Delete Post
   await driver.get(`${baseUrl}/dashboard`);
@@ -75,7 +75,7 @@ async function login(driver, username, password) {
 
   const afterDelete = await driver.getPageSource();
   assert(!afterDelete.includes('Admin Updated Post'));
-  console.log("Admin post deleted successfully");
+  console.log("PASSED - Admin post deleted successfully");
 
 
   } catch (err) {
